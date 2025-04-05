@@ -1,6 +1,6 @@
 # Library Management System
 
-A web-based Library Management System built using Django.
+A web-based Library Management System built using Python's Django, HTML, CSS, and MySQL Database.
 It provides functionalities for managing books, authors, borrowers, and book loans, including features for searching, checking out, and checking in books, as well as managing fines.
 
 
@@ -33,7 +33,7 @@ It provides functionalities for managing books, authors, borrowers, and book loa
 
 ![Homepage Screenshot](https://github.com/user-attachments/assets/5be7b124-ca8b-46a1-8ee8-1a93cf05a357
 )
-*Description of the homepage: Briefly explain what the user sees upon first accessing the application.*
+
 
 ### Book Search Page (/library/search/)
 
@@ -41,19 +41,19 @@ It provides functionalities for managing books, authors, borrowers, and book loa
 )
 ![Book List Screenshot](https://github.com/user-attachments/assets/c689de69-f9c9-42c6-8414-15ced1723d83
 )
-*Description of the book list: Show how books are displayed, including relevant information like title and author. If there's a details page for individual books, include that too.*
+
 
 ### Borrower List Page (/library/borrowers/)
 
 ![Borrower Page Screenshot](https://github.com/user-attachments/assets/70a2035c-4f4f-4424-bbff-3e8c0a7a78d3
 )
-*Description of the borrower registration form: Explain the fields required to register a new borrower (Name, SSN, Address, Phone).*
+
 
 ### Borrower Registration Page (/library/borrowers/new)
 
 ![Borrower Registration Page Screenshot](https://github.com/user-attachments/assets/51adb92a-1be2-4211-8fa2-a5413dbe3440
 )
-*Description of the borrower registration form: Explain the fields required to register a new borrower (Name, SSN, Address, Phone).*
+
 
 ### Check In/Out Page (/library/check)
 
@@ -61,10 +61,9 @@ It provides functionalities for managing books, authors, borrowers, and book loa
 )
 ![Check In/Out Results Page Screenshot](https://github.com/user-attachments/assets/9d8bb8a0-d490-449a-a6c8-cf26ff1056f9
 )
-*Description of the check-out process: Explain how a user can check out a book by providing the ISBN and Borrower ID.*
+
 
 ### Fines Page (/library/fines/)
 
 ![Fines Page Screenshot](https://github.com/user-attachments/assets/92da8459-4cb2-48f6-a504-267f1d831d77
 )
-*Description of the fines page: Explain how total fines are displayed for each borrower and the option to show paid fines.*
