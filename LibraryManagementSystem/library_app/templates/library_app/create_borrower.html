@@ -1,0 +1,53 @@
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register New Borrower - Library Management System</title>
+</head>
+<body style="margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(to right, #dfe9f3, #ffffff); color: #333;">
+
+    <!-- Register Form Container -->
+    <div style="max-width: 600px; margin: 20px auto; padding: 30px; background-color: #ffffffcc; border-radius: 12px; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); backdrop-filter: blur(5px);">
+        <h2 style="text-align: center; margin-bottom: 25px; color: #2c3e50;">📝 Register New Borrower</h2>
+
+        <form method="post" style="display: flex; flex-direction: column; gap: 15px;">
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            <button type="submit" 
+                style="
+                    background: linear-gradient(135deg, #28a745, #218838);
+                    border: none;
+                    color: white;
+                    padding: 12px 30px;
+                    text-align: center;
+                    text-decoration: none;
+                    display: inline-block;
+                    font-size: 1rem;
+                    border-radius: 50px;
+                    cursor: pointer;
+                    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+                    transition: all 0.3s ease-in-out;
+                    margin-top: 20px;
+                "
+                onmouseover="this.style.transform='translateY(-3px)'; this.style.background='linear-gradient(135deg, #218838, #1e7e34)'"
+                onmouseout="this.style.transform='translateY(0)'; this.style.background='linear-gradient(135deg, #28a745, #218838)'"
+            >Register</button>
+        </form>
+
+        <!-- Link to Borrower List -->
+        <div style="text-align: center; margin-top: 20px;">
+            <a href="{% url 'borrower_list' %}" 
+                style="color: #007bff; font-size: 1rem; text-decoration: none; transition: color 0.3s ease-in-out;"
+                onmouseover="this.style.color='#0056b3';"
+                onmouseout="this.style.color='#007bff';"
+            >
+                View Borrowers
+            </a>
+        </div>
+    </div>
+
+</body>
+</html>
+{% endblock %}

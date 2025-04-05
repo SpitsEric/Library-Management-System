@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Search Books - Library Management System</title>
+</head>
+<body style="margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(to right, #dfe9f3, #ffffff); color: #333;">
+
+    <!-- Home Button -->
+    <div style="padding: 20px; text-align: center;">
+        <a href="{% url 'home' %}" 
+            style="
+                background: linear-gradient(135deg, #007bff, #0056b3);
+                border: none;
+                color: white;
+                padding: 12px 30px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 1rem;
+                border-radius: 50px;
+                cursor: pointer;
+                box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+                transition: all 0.3s ease-in-out;
+        "
+            onmouseover="this.style.transform='translateY(-3px)'; this.style.background='linear-gradient(135deg, #0056b3, #003e80)'"
+            onmouseout="this.style.transform='translateY(0)'; this.style.background='linear-gradient(135deg, #007bff, #0056b3)'"
+        >🏠 Home</a>
+    </div>
+
+    <!-- Search Box -->
+    <div style="
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 30px;
+        background-color: #ffffffcc;
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(5px);
+    ">
+        <h2 style="font-size: 2rem; margin-bottom: 20px; color: #2c3e50;">🔍 Search Books</h2>
+
+        <form method="get" action="{% url 'search_books' %}" style="display: flex; gap: 10px; margin-bottom: 30px;">
+            <input type="text" name="q" placeholder="Search by ISBN, title, or author" value="{{ query }}"
+                style="flex-grow: 1; padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-size: 1rem;">
+            <button type="submit"
+                style="
+                    background: linear-gradient(135deg, #28a745, #218838);
+                    border: none;
+                    color: white;
+                    padding: 12px 25px;
+                    border-radius: 50px;
+                    font-size: 1rem;
+                    cursor: pointer;
+                    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+                    transition: all 0.3s ease-in-out;
+                "
+                onmouseover="this.style.transform='translateY(-2px)'; this.style.background='linear-gradient(135deg, #218838, #1e7e34)'"
+                onmouseout="this.style.transform='translateY(0)'; this.style.background='linear-gradient(135deg, #28a745, #218838)'"
+            >Search</button>
+        </form>
+
+        {% if books %}
+            <table style="width: 100%; border-collapse: collapse; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border-radius: 8px; overflow: hidden;">
+                <thead>
+                    <tr style="background-color: #f2f2f2;">
+                        <th style="padding: 12px; text-align: left; border-bottom: 1px solid #ddd;">ISBN</th>
+                        <th style="padding: 12px; text-align: left; border-bottom: 1px solid #ddd;">Title</th>
+                        <th style="padding: 12px; text-align: left; border-bottom: 1px solid #ddd;">Authors</th>
+                        <th style="padding: 12px; text-align: left; border-bottom: 1px solid #ddd;">Available</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for book in books %}
+                        <tr style="background-color: {{ forloop.counter|divisibleby:2|yesno:'#ffffff:#f9f9f9' }};">
+                            <td style="padding: 12px;">{{ book.isbn }}</td>
+                            <td style="padding: 12px;">{{ book.title }}</td>
+                            <td style="padding: 12px;">
+                                {% for author in book.authors.all %}
+                                    {{ author.name }}{% if not forloop.last %}, {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td style="padding: 12px;">
+                                {% if book.is_available %}
+                                    ✅
+                                {% else %}
+                                    ❌
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p style="font-size: 1.1rem; color: #666; margin-top: 20px;">
+                {% if query %}
+                    No books found matching your search.
+                {% else %}
+                    Enter a search term to find books.
+                {% endif %}
+            </p>
+        {% endif %}
+    </div>
+
+</body>
+</html>

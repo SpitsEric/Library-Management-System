@@ -1,0 +1,89 @@
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Borrower List - Library Management System</title>
+</head>
+<body style="margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(to right, #dfe9f3, #ffffff); color: #333;">
+
+    <!-- Home & Add Borrower Buttons -->
+    <div style="padding: 20px; text-align: center;">
+        <a href="{% url 'home' %}" 
+            style="
+                background: linear-gradient(135deg, #007bff, #0056b3);
+                border: none;
+                color: white;
+                padding: 12px 30px;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 1rem;
+                border-radius: 50px;
+                cursor: pointer;
+                margin: 10px;
+                box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+                transition: all 0.3s ease-in-out;
+        "
+            onmouseover="this.style.transform='translateY(-3px)'; this.style.background='linear-gradient(135deg, #0056b3, #003e80)'"
+            onmouseout="this.style.transform='translateY(0)'; this.style.background='linear-gradient(135deg, #007bff, #0056b3)'"
+        >🏠 Home</a>
+
+        <a href="{% url 'create_borrower' %}" 
+            style="
+                background: linear-gradient(135deg, #28a745, #218838);
+                border: none;
+                color: white;
+                padding: 12px 30px;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 1rem;
+                border-radius: 50px;
+                cursor: pointer;
+                margin: 10px;
+                box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+                transition: all 0.3s ease-in-out;
+        "
+            onmouseover="this.style.transform='translateY(-3px)'; this.style.background='linear-gradient(135deg, #218838, #1e7e34)'"
+            onmouseout="this.style.transform='translateY(0)'; this.style.background='linear-gradient(135deg, #28a745, #218838)'"
+        >➕ Add New Borrower</a>
+    </div>
+
+    <!-- Borrower Table -->
+    <div style="
+        max-width: 1000px;
+        margin: 0 auto 40px auto;
+        padding: 30px;
+        background-color: #ffffffcc;
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(5px);
+    ">
+        <h2 style="font-size: 2rem; margin-bottom: 25px; color: #2c3e50; text-align: center;">📋 Borrower List</h2>
+
+        <table style="width: 100%; border-collapse: collapse; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border-radius: 8px; overflow: hidden;">
+            <thead>
+                <tr style="background-color: #f2f2f2;">
+                    <th style="padding: 12px; text-align: left; border-bottom: 1px solid #ddd;">Card ID</th>
+                    <th style="padding: 12px; text-align: left; border-bottom: 1px solid #ddd;">Name</th>
+                    <th style="padding: 12px; text-align: left; border-bottom: 1px solid #ddd;">SSN</th>
+                    <th style="padding: 12px; text-align: left; border-bottom: 1px solid #ddd;">Address</th>
+                    <th style="padding: 12px; text-align: left; border-bottom: 1px solid #ddd;">Phone</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for borrower in borrowers %}
+                    <tr style="background-color: {{ forloop.counter|divisibleby:2|yesno:'#ffffff:#f9f9f9' }};">
+                        <td style="padding: 12px;">{{ borrower.card_id }}</td>
+                        <td style="padding: 12px;">{{ borrower.bname }}</td>
+                        <td style="padding: 12px;">{{ borrower.ssn }}</td>
+                        <td style="padding: 12px;">{{ borrower.address }}</td>
+                        <td style="padding: 12px;">{{ borrower.phone }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>
+{% endblock %}

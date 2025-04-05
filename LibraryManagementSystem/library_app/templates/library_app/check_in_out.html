@@ -1,0 +1,140 @@
+{% block content %}
+<body style="margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(to right, #f4f7f9, #e9f1f6); color: #333;">
+
+<!--Home Button -->
+<a href="{% url 'home' %}"
+   style="
+       position: fixed;
+       top: 20px;
+       left: 20px;
+       background: linear-gradient(135deg, #007bff, #0056b3);
+       border: none;
+       color: white;
+       padding: 12px 24px;
+       text-align: center;
+       text-decoration: none;
+       font-size: 1rem;
+       cursor: pointer;
+       border-radius: 50px;
+       box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+       z-index: 1000;
+       transition: all 0.3s ease-in-out;
+   "
+   onmouseover="this.style.transform='translateY(-3px)'; this.style.background='linear-gradient(135deg, #0056b3, #003e80)'"
+   onmouseout="this.style.transform='translateY(0)'; this.style.background='linear-gradient(135deg, #007bff, #0056b3)'"
+>🏠 Home</a>
+
+<!-- Main Container -->
+<div style="
+    max-width: 900px;
+    margin: 60px auto 40px auto;
+    padding: 30px;
+    background-color: #ffffffdd;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    backdrop-filter: blur(6px);
+">
+
+    <h2 style="text-align: center; font-size: 2rem; margin-bottom: 30px;">📚 Check In / Check Out</h2>
+
+    <!-- Checkout Form -->
+    <div style="margin-bottom: 40px; padding: 20px; border: 1px solid #eee; border-radius: 10px;">
+        <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 1.3rem;">🚀 Check Out</h3>
+        <form method="post" style="display: flex; flex-direction: column; gap: 15px;">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="checkout">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <label for="isbn" style="width: 120px; text-align: right;">ISBN:</label>
+                <input type="text" id="isbn" name="isbn" required style="padding: 10px; border: 1px solid #ccc; border-radius: 6px; flex-grow: 1;">
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <label for="borrower_id" style="width: 120px; text-align: right;">Borrower ID:</label>
+                <input type="text" id="borrower_id" name="borrower_id" required style="padding: 10px; border: 1px solid #ccc; border-radius: 6px; flex-grow: 1;">
+            </div>
+            <button type="submit"
+                style="align-self: flex-end; background: linear-gradient(135deg, #28a745, #218838); color: white; border: none; padding: 12px 24px; border-radius: 50px; cursor: pointer; box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3); transition: all 0.3s ease-in-out;"
+                onmouseover="this.style.transform='translateY(-2px)'; this.style.background='linear-gradient(135deg, #218838, #1e7e34)'"
+                onmouseout="this.style.transform='translateY(0)'; this.style.background='linear-gradient(135deg, #28a745, #218838)'"
+            >Check Out</button>
+        </form>
+        {% if checkout_msg %}
+            <p style="margin-top: 10px; color: {% if 'success' in checkout_msg %}green{% else %}red{% endif %};">{{ checkout_msg }}</p>
+        {% endif %}
+    </div>
+
+    <hr style="margin-bottom: 40px; border-top: 1px solid #ddd;">
+
+    <!-- Check-In Search -->
+    <div style="padding: 20px; border: 1px solid #eee; border-radius: 10px;">
+        <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 1.3rem;">🔍 Search for Check-In</h3>
+        <form method="post" style="display: flex; flex-direction: column; gap: 15px;">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="checkin">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <label for="search_type" style="width: 120px; text-align: right;">Search By:</label>
+                <select id="search_type" name="search_type" style="padding: 10px; border: 1px solid #ccc; border-radius: 6px; flex-grow: 1;">
+                    <option value="isbn">ISBN</option>
+                    <option value="id">Borrower ID</option>
+                    <option value="name">Borrower Name</option>
+                </select>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <label for="search_value" style="width: 120px; text-align: right;">Search Value:</label>
+                <input type="text" id="search_value" name="search_value" required style="padding: 10px; border: 1px solid #ccc; border-radius: 6px; flex-grow: 1;">
+            </div>
+            <button type="submit"
+                style="align-self: flex-end; background: linear-gradient(135deg, #28a745, #218838); color: white; border: none; padding: 12px 24px; border-radius: 50px; cursor: pointer; box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3); transition: all 0.3s ease-in-out;"
+                onmouseover="this.style.transform='translateY(-2px)'; this.style.background='linear-gradient(135deg, #218838, #1e7e34)'"
+                onmouseout="this.style.transform='translateY(0)'; this.style.background='linear-gradient(135deg, #28a745, #218838)'"
+            >Search</button>
+        </form>
+        {% if checkin_msg %}
+            <p style="margin-top: 10px; color: {% if 'success' in checkin_msg %}green{% else %}red{% endif %};">{{ checkin_msg }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Check-In Confirmation -->
+    {% if checkin_results %}
+    <div style="margin-top: 40px; padding: 20px; border: 1px solid #eee; border-radius: 10px;">
+        <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 1.3rem;">✅ Confirm Check-In</h3>
+        <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="confirm_checkin">
+            <table style="width: 100%; border-collapse: collapse; border: 1px solid #ddd; border-radius: 8px; overflow: hidden;">
+                <thead>
+                    <tr style="background-color: #f2f2f2;">
+                        <th style="padding: 10px;">Select</th>
+                        <th style="padding: 10px;">Loan ID</th>
+                        <th style="padding: 10px;">ISBN</th>
+                        <th style="padding: 10px;">Borrower</th>
+                        <th style="padding: 10px;">Book Title</th>
+                        <th style="padding: 10px;">Date Out</th>
+                        <th style="padding: 10px;">Due Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in checkin_results %}
+                    <tr style="background-color: {{ forloop.counter|divisibleby:2|yesno:'#ffffff:#f9f9f9' }};">
+                        <td style="padding: 10px;"><input type="checkbox" name="loan_ids" value="{{ row.0 }}"></td>
+                        <td style="padding: 10px;">{{ row.0 }}</td>
+                        <td style="padding: 10px;">{{ row.1 }}</td>
+                        <td style="padding: 10px;">{{ row.2 }}</td>
+                        <td style="padding: 10px;">{{ row.5 }}</td>
+                        <td style="padding: 10px;">{{ row.3 }}</td>
+                        <td style="padding: 10px;">{{ row.4 }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <button type="submit"
+                style="margin-top: 20px; background: linear-gradient(135deg, #ffc107, #e0a800); color: white; border: none; padding: 12px 24px; border-radius: 50px; cursor: pointer; box-shadow: 0 4px 12px rgba(255, 193, 7, 0.3); transition: all 0.3s ease-in-out;"
+                onmouseover="this.style.transform='translateY(-2px)'; this.style.background='linear-gradient(135deg, #e0a800, #c69500)'"
+                onmouseout="this.style.transform='translateY(0)'; this.style.background='linear-gradient(135deg, #ffc107, #e0a800)'"
+            >Confirm Check-In</button>
+        </form>
+    </div>
+    {% endif %}
+</div>
+
+</body>
+{% endblock %}
