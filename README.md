@@ -9,8 +9,6 @@ It provides functionalities for managing books, authors, borrowers, and book loa
 * **Book Management:**
     * Add, view, update, and delete book records (ISBN, title).
     * Associate books with authors.
-* **Author Management:**
-    * Add, view, update, and delete author records (name).
 * **Borrower Management:**
     * Register new borrowers (name, SSN, address, phone).
     * View a list of registered borrowers.
