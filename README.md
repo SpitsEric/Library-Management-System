@@ -65,3 +65,60 @@ It provides functionalities for managing books, authors, borrowers, and book loa
 
 ![Fines Page Screenshot](https://github.com/user-attachments/assets/92da8459-4cb2-48f6-a504-267f1d831d77
 )
+
+## How to Run Locally
+
+1.  **Prerequisites:**
+    * Python 3.8+ installed ([https://www.python.org/downloads/](https://www.python.org/downloads/))
+    * Git installed ([https://git-scm.com/book/en/v2/Getting-Started-Installing-Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git))
+
+2.  **Clone the repository:**
+    ```bash
+    git clone [your_repository_url]
+    cd Library-Management-System
+    ```
+
+3.  **Set up a virtual environment:**
+    ```bash
+    python3 -m venv venv
+    source venv/bin/activate  # On macOS/Linux
+    # venv\Scripts\activate   # On Windows
+    ```
+4.  **Install dependencies:**
+    ```bash
+    pip install -r requirements.txt
+    ```
+    
+5.  **Configure the `.env` file:**
+    * This project uses a `.env` file to store database credentials.
+    * In the root of the project, create a file named `.env`.
+    * Add your MySQL connection details to this file in the following format (replace with your actual credentials):
+
+        ```
+        DATABASE_ENGINE=django.db.backends.mysql
+        DATABASE_NAME=library  # Or your database name
+        DATABASE_USER=your_mysql_username
+        DATABASE_PASSWORD=your_mysql_password
+        DATABASE_HOST=localhost  # Or your MySQL host
+        DATABASE_PORT=3306       # Or your MySQL port
+        ```
+
+6.  **Install `python-dotenv`:**
+    If you haven't already, ensure the `python-dotenv` library is installed in your virtual environment, as Django will need it to load environment variables from the `.env` file:
+
+    ```bash
+    pip install python-dotenv
+    ```
+
+7.  **Run migrations:**
+    ```bash
+    python manage.py migrate
+    ```
+
+8.  **Run the development server:**
+    ```bash
+    cd LibraryManagementSystem
+    python manage.py runserver
+    ```
+
+9. Open your web browser and navigate to `http://127.0.0.1:8000/` (or `http://127.0.0.1:8000/library/` if you have a redirect).
