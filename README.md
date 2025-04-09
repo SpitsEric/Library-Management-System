@@ -74,7 +74,7 @@ It provides functionalities for managing books, authors, borrowers, and book loa
 
 2.  **Clone the repository:**
     ```bash
-    git clone [your_repository_url]
+    git clone https://github.com/SpitsEric/Library-Management-System.git
     cd Library-Management-System
     ```
 
