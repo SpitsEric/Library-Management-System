@@ -232,21 +232,38 @@ def update_fines_view(request):
 
 def view_fines(request):
     include_paid = request.GET.get("include_paid") == "true"
+    search_borrower_id = request.GET.get("borrower_id")
+
+    if search_borrower_id is None:
+        search_borrower_id = ""
+
     query = """
         SELECT bl.card_id, SUM(f.fine_amt) as total_fine, MAX(f.paid) as is_paid
         FROM fines f
         JOIN book_loans bl ON f.loan_id = bl.loan_id
     """
+    where_clause = []
+    params = []
+
     if not include_paid:
-        query += " WHERE f.paid = FALSE"
+        where_clause.append("f.paid = FALSE")
+
+    if search_borrower_id:
+        where_clause.append("bl.card_id = %s")
+        params.append(search_borrower_id)
+
+    if where_clause:
+        query += " WHERE " + " AND ".join(where_clause)
+
     query += " GROUP BY bl.card_id"
 
-    fines = run_query(query)
+    fines = run_query(query, params)
     message = request.GET.get('message', '')
     return render(request, "library_app/view_fines.html", {
         "fines": fines,
         "include_paid": include_paid,
         "message": message,
+        "search_borrower_id": search_borrower_id,
     })
 
 def pay_fine_view(request, card_id):
@@ -278,5 +295,5 @@ def pay_fine_view(request, card_id):
             message = f"All fines paid successfully for borrower {card_id}."
 
         return redirect(reverse("view_fines") + f"?message={message}")
-    
+
     return HttpResponse("Invalid request method.", status=405)
