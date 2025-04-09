@@ -7,14 +7,12 @@
 </head>
 <body style="margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(to right, #dfe9f3, #ffffff); color: #333;">
 
-    <!-- Home Button -->
-    <a href="{% url 'home' %}" 
+    <a href="{% url 'home' %}"
        style="position: fixed; top: 20px; left: 20px; background: linear-gradient(135deg, #007bff, #0056b3); border: none; color: white; padding: 12px 30px; text-align: center; text-decoration: none; display: inline-block; font-size: 1rem; cursor: pointer; border-radius: 50px; box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3); transition: all 0.3s ease-in-out; z-index: 1000;"
        onmouseover="this.style.transform='translateY(-3px)'; this.style.background='linear-gradient(135deg, #0056b3, #003e80)'"
        onmouseout="this.style.transform='translateY(0)'; this.style.background='linear-gradient(135deg, #007bff, #0056b3)'"
     >🏠 Home</a>
 
-    <!-- Fines Page Content -->
     <div style="max-width: 800px; margin: 20px auto; padding: 30px; background-color: #ffffffcc; border-radius: 12px; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); backdrop-filter: blur(5px);">
         <h2 style="text-align: center; margin-bottom: 25px; color: #2c3e50;">💸 Fines</h2>
 
@@ -24,25 +22,29 @@
             </div>
         {% endif %}
 
-        <div style="margin-bottom: 30px; padding: 20px; border: 1px solid #eee; border-radius: 12px; background-color: #f9f9f9;">
+        <div style="margin-bottom: 30px; padding: 20px; border: 1px solid #eee; border-radius: 12px; background-color: #f9f9f9; display: flex; justify-content: space-between; align-items: center;">
             <form method="post" action="{% url 'update_fines' %}" style="display: inline-block; margin-right: 15px;">
                 {% csrf_token %}
-                <button type="submit" 
-                    style="background: linear-gradient(135deg, #28a745, #218838); border: none; color: white; padding: 12px 30px; text-align: center; text-decoration: none; display: inline-block; font-size: 1rem; border-radius: 50px; cursor: pointer; box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3); transition: all 0.3s ease-in-out;"
-                    onmouseover="this.style.transform='translateY(-3px)'; this.style.background='linear-gradient(135deg, #218838, #1e7e34)'"
-                    onmouseout="this.style.transform='translateY(0)'; this.style.background='linear-gradient(135deg, #28a745, #218838)'"
+                <button type="submit"
+                        style="background: linear-gradient(135deg, #28a745, #218838); border: none; color: white; padding: 12px 30px; text-align: center; text-decoration: none; display: inline-block; font-size: 1rem; border-radius: 50px; cursor: pointer; box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3); transition: all 0.3s ease-in-out;"
+                        onmouseover="this.style.transform='translateY(-3px)'; this.style.background='linear-gradient(135deg, #218838, #1e7e34)'"
+                        onmouseout="this.style.transform='translateY(0)'; this.style.background='linear-gradient(135deg, #28a745, #218838)'"
                 >Refresh Fines</button>
             </form>
 
             <form method="get" style="display: inline-block;">
-                <label style="display: inline-flex; align-items: center;">
+                <label style="display: inline-flex; align-items: center; margin-right: 15px;">
                     <input type="checkbox" name="include_paid" value="true" {% if include_paid %}checked{% endif %} onchange="this.form.submit()" style="margin-right: 5px;">
                     Show paid fines
                 </label>
+                <div style="display: inline-flex; align-items: center;">
+                    <label for="borrower_id" style="margin-right: 10px;">Borrower ID:</label>
+                    <input type="text" id="borrower_id" name="borrower_id" value="{{ search_borrower_id }}" style="padding: 8px; border: 1px solid #ccc; border-radius: 5px;">
+                    <button type="submit" style="background-color: #007bff; border: none; color: white; padding: 8px 15px; border-radius: 5px; cursor: pointer; margin-left: 10px;">Search</button>
+                </div>
             </form>
         </div>
 
-        <!-- Fines Table -->
         <table style="width: 100%; border-collapse: collapse; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); border-radius: 8px; overflow: hidden;">
             <thead>
                 <tr style="background-color: #f2f2f2;">
@@ -53,17 +55,17 @@
             </thead>
             <tbody>
                 {% for card_id, total_fine, is_paid in fines %}
-                    <tr style="background-color: {{ forloop.counter|divisibleby:2|yesno:'#ffffff:#f9f9f9' }};">
-                        <td style="padding: 12px;">{{ card_id }}</td>
-                        <td style="padding: 12px;">${{ total_fine }}</td>
-                        <td style="padding: 12px;">
-                            {% if total_fine > 0 %}
-                                {% if is_paid %}
-                                    <span style="color: green; font-weight: bold;">Paid</span>
-                                {% else %}
-                                    <form method="post" action="{% url 'pay_fine' card_id=card_id %}" style="display: inline-block;">
-                                        {% csrf_token %}
-                                        <button type="submit" 
+                <tr style="background-color: {{ forloop.counter|divisibleby:2|yesno:'#ffffff:#f9f9f9' }};">
+                    <td style="padding: 12px;">{{ card_id }}</td>
+                    <td style="padding: 12px;">${{ total_fine }}</td>
+                    <td style="padding: 12px;">
+                        {% if total_fine > 0 %}
+                            {% if is_paid %}
+                                <span style="color: green; font-weight: bold;">Paid</span>
+                            {% else %}
+                                <form method="post" action="{% url 'pay_fine' card_id=card_id %}" style="display: inline-block;">
+                                    {% csrf_token %}
+                                    <button type="submit"
                                             style="
                                                 background: linear-gradient(135deg, #dc3545, #c82333);
                                                 border: none;
@@ -80,12 +82,14 @@
                                             "
                                             onmouseover="this.style.transform='translateY(-3px)'; this.style.background='linear-gradient(135deg, #c82333, #9f2a25)'"
                                             onmouseout="this.style.transform='translateY(0)'; this.style.background='linear-gradient(135deg, #dc3545, #c82333)'"
-                                        >Pay Fine</button>
-                                    </form>
-                                {% endif %}
+                                    >Pay Fine</button>
+                                </form>
                             {% endif %}
-                        </td>
-                    </tr>
+                        {% else %}
+                            <span style="color: green; font-weight: bold;">No Fines</span>
+                        {% endif %}
+                    </td>
+                </tr>
                 {% empty %}
                     <tr><td colspan="3" style="padding: 12px; text-align: center;">No fines to display.</td></tr>
                 {% endfor %}
