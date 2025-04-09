@@ -63,7 +63,8 @@ It provides functionalities for managing books, authors, borrowers, and book loa
 
 ### Fines Page (/library/fines/)
 
-![Fines Page Screenshot](https://github.com/user-attachments/assets/92da8459-4cb2-48f6-a504-267f1d831d77
+![Fines Page Screenshot](https://github.com/user-attachments/assets/bbacecd7-e9bb-4c59-b752-0d24611c8b99)
+
 )
 
 ## How to Run Locally
